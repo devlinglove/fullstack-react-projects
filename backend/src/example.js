@@ -13,7 +13,7 @@ const post = new Post({
 const createdPost = await post.save()
 
 const allPosts = await Post.find()
-console.log('----all-posts', allPosts)
+//console.log('----all-posts', allPosts)
 
 await Post.findByIdAndUpdate(createdPost._id, {
   $set: {

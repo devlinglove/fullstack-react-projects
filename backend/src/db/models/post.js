@@ -1,9 +1,13 @@
-import mongoose, { Schema } from 'mongoose'
+//import mongoose, { Schema } from 'mongoose'
+
+const mongoose = require('mongoose')
+const { Schema } = mongoose
 
 const postSchema = new Schema(
   {
     title: { type: String, required: true },
-    author: String,
+    //author: String,
+    author: { type: mongoose.Types.ObjectId, ref: 'user', required: true },
     contents: String,
     tags: [String],
   },
@@ -12,4 +16,5 @@ const postSchema = new Schema(
   },
 )
 
-export const Post = mongoose.model('post', postSchema)
+const Post = mongoose.model('post', postSchema)
+module.exports = { Post }
