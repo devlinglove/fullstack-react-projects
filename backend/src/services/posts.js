@@ -2,8 +2,8 @@
 
 const { Post } = require('../db/models/post')
 
-async function createPost({ title, author, contents, tags }) {
-  const newPost = Post({ title, author, contents, tags })
+async function createPost(userId, { title, contents, tags }) {
+  const newPost = new Post({ title, author: userId, contents, tags })
   return await newPost.save()
 }
 
@@ -30,16 +30,19 @@ async function getPostById(postId) {
   return await Post.findById(postId)
 }
 
-async function updatePost(postId, { title, author, contents, tags }) {
-  return await Post.findOneAndUpdate(
-    { _id: postId },
-    { $set: { title, author, contents, tags } },
-    { new: true },
+async function updatePost(userId, postId, { title, author, contents, tags }) {
+  console.log('title', title)
+  const post = await Post.findOneAndUpdate(
+    { _id: postId, author: userId },
+    { $set: { title, author: userId, contents, tags } },
+    { new: true, runValidators: true },
   )
+
+  return post
 }
 
-async function deletePost(postId) {
-  return await Post.deleteOne({ _id: postId })
+async function deletePost(userId, postId) {
+  return await Post.deleteOne({ _id: postId, author: userId })
 }
 
 module.exports = {

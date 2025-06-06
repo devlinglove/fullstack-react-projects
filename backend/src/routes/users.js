@@ -29,7 +29,8 @@ function userRoutes(app) {
       return res.status(201).json({ username: user.username })
     } catch (err) {
       return res.status(400).json({
-        error: 'failed to create the user,does the username already exist?',
+        status: 400,
+        error: 'failed to create the user, does the username already exist?',
       })
     }
   })
@@ -41,6 +42,7 @@ function userRoutes(app) {
     } catch (error) {
       console.log('-----------', error)
       return res.status(400).send({
+        status: 400,
         error: 'login failed, did you enter the correct username/password?',
       })
     }
