@@ -5,9 +5,6 @@
 const { app } = require('./app.js')
 const { initialDatabase } = require('./db/init.js')
 
-//dotenv.config()
-require('dotenv').config()
-
 // try {
 //   await initialDatabase()
 //   const PORT = process.env.PORT || 5000
@@ -26,6 +23,7 @@ async function startServer() {
   }
 
   const PORT = process.env.PORT || 5000
+
   const server = app.listen(PORT, () => {
     console.info(`express server running on http://localhost:${PORT}`)
   })

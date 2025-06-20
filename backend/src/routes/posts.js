@@ -4,20 +4,28 @@ const {
   getPostById,
   listAllPosts,
   updatePost,
+  listFilterAllPosts,
   deletePost,
 } = require('../services/posts.js')
 
-const { requiredAuth } = require('../middleware/jwt.js')
+const { requiredAuth, authorize } = require('../middleware/jwt.js')
 const { catchAsync } = require('../utils/catchAsync.js')
 const { AppError } = require('../utils/appError.js')
 
 function postsRoutes(app) {
   app.get(
     '/api/v1/posts',
-    requiredAuth,
+    authorize,
     catchAsync(async (req, res) => {
+      let queryObject = { ...req.query, author: req.auth.sub }
+      let excludedFields = ['sortOrder', 'sortBy']
+      excludedFields.forEach((field) => delete queryObject[field])
       const { sortOrder, sortBy } = req.query
-      const allPosts = await listAllPosts({ sortOrder, sortBy })
+
+      const allPosts = await listFilterAllPosts(queryObject, {
+        sortOrder,
+        sortBy,
+      })
       return res.json(allPosts)
     }),
   )

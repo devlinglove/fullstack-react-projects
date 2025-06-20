@@ -7,7 +7,7 @@ const postSchema = new Schema(
   {
     title: { type: String, required: true },
     //author: String,
-    author: { type: mongoose.Types.ObjectId, ref: 'user', required: true },
+    author: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
     contents: String,
     tags: [String],
   },
@@ -16,5 +16,5 @@ const postSchema = new Schema(
   },
 )
 
-const Post = mongoose.model('post', postSchema)
+const Post = mongoose.model('Post', postSchema)
 module.exports = { Post }

@@ -18,6 +18,10 @@ async function listAllPosts(options) {
   return listPosts({}, options)
 }
 
+async function listFilterAllPosts(filter = {}, options) {
+  return listPosts(filter, options)
+}
+
 async function listPostByAuthor(author, options) {
   return listPosts({ author }, options)
 }
@@ -33,7 +37,7 @@ async function getPostById(postId) {
 async function updatePost(userId, postId, { title, author, contents, tags }) {
   console.log('title', title)
   const post = await Post.findOneAndUpdate(
-    { _id: postId, author: userId },
+    { _id: postId },
     { $set: { title, author: userId, contents, tags } },
     { new: true, runValidators: true },
   )
@@ -51,4 +55,5 @@ module.exports = {
   listAllPosts,
   updatePost,
   deletePost,
+  listFilterAllPosts,
 }
